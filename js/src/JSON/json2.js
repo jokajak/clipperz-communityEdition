@@ -11,7 +11,7 @@
     This file creates a global JSON object containing two methods: stringify
     and parse.
 
-        JSON.stringify(value, replacer, space)
+        JSON2.stringify(value, replacer, space)
             value       any JavaScript value, usually an object or array.
 
             replacer    an optional parameter that determines how object
@@ -78,21 +78,21 @@
 
             Example:
 
-            text = JSON.stringify(['e', {pluribus: 'unum'}]);
+            text = JSON2.stringify(['e', {pluribus: 'unum'}]);
             // text is '["e",{"pluribus":"unum"}]'
 
 
-            text = JSON.stringify(['e', {pluribus: 'unum'}], null, '\t');
+            text = JSON2.stringify(['e', {pluribus: 'unum'}], null, '\t');
             // text is '[\n\t"e",\n\t{\n\t\t"pluribus": "unum"\n\t}\n]'
 
-            text = JSON.stringify([new Date()], function (key, value) {
+            text = JSON2.stringify([new Date()], function (key, value) {
                 return this[key] instanceof Date ?
                     'Date(' + this[key] + ')' : value;
             });
             // text is '["Date(---current time---)"]'
 
 
-        JSON.parse(text, reviver)
+        JSON2.parse(text, reviver)
             This method parses a JSON text to produce an object or array.
             It can throw a SyntaxError exception.
 
@@ -107,7 +107,7 @@
             // Parse the text. Values that look like ISO date strings will
             // be converted to Date objects.
 
-            myData = JSON.parse(text, function (key, value) {
+            myData = JSON2.parse(text, function (key, value) {
                 var a;
                 if (typeof value === 'string') {
                     a =
@@ -120,7 +120,7 @@
                 return value;
             });
 
-            myData = JSON.parse('["Date(09/09/2001)"]', function (key, value) {
+            myData = JSON2.parse('["Date(09/09/2001)"]', function (key, value) {
                 var d;
                 if (typeof value === 'string' &&
                         value.slice(0, 5) === 'Date(' &&
@@ -146,7 +146,7 @@
 
 /*jslint evil: true */
 
-/*global JSON */
+/*global JSON2 */
 
 /*members "", "\b", "\t", "\n", "\f", "\r", "\"", JSON, "\\", call,
     charCodeAt, getUTCDate, getUTCFullYear, getUTCHours, getUTCMinutes,
@@ -158,8 +158,8 @@
 // Create a JSON object only if one does not already exist. We create the
 // methods in a closure to avoid creating global variables.
 
-if (!this.JSON) {
-    JSON = {};
+if (!this.JSON2) {
+    JSON2 = {};
 }
 (function () {
 
@@ -352,8 +352,8 @@ if (!this.JSON) {
 
 // If the JSON object does not yet have a stringify method, give it one.
 
-    if (typeof JSON.stringify !== 'function') {
-        JSON.stringify = function (value, replacer, space) {
+    if (typeof JSON2.stringify !== 'function') {
+        JSON2.stringify = function (value, replacer, space) {
 
 // The stringify method takes a value and an optional replacer, and an optional
 // space parameter, and returns a JSON text. The replacer can be a function
@@ -386,7 +386,7 @@ if (!this.JSON) {
             if (replacer && typeof replacer !== 'function' &&
                     (typeof replacer !== 'object' ||
                      typeof replacer.length !== 'number')) {
-                throw new Error('JSON.stringify');
+                throw new Error('JSON2.stringify');
             }
 
 // Make a fake root object containing our value under the key of ''.
@@ -399,8 +399,8 @@ if (!this.JSON) {
 
 // If the JSON object does not yet have a parse method, give it one.
 
-    if (typeof JSON.parse !== 'function') {
-        JSON.parse = function (text, reviver) {
+    if (typeof JSON2.parse !== 'function') {
+        JSON2.parse = function (text, reviver) {
 
 // The parse method takes a text and an optional reviver function, and returns
 // a JavaScript value if the text is a valid JSON text.
@@ -475,7 +475,7 @@ replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
 
 // If the text is not JSON parseable, then a SyntaxError is thrown.
 
-            throw new SyntaxError('JSON.parse');
+            throw new SyntaxError('JSON2.parse');
         };
     }
 })();
