@@ -29,3 +29,5 @@ The code has been compiled using PHP 5.1.6
 The POG class definitions have been configure for use with PHP 5.1+
 
 For added convenience, we have added a page at /php/test.php that reports the detailed PHP configuration available on your computer.
+
+Once you have setup the PHP backend you will need to build the index.html which contains all of the javascript and css.  You will need to have ant and ant-apache-regexp installed in order to build the index.html.  Once you have the proper software installed you should run ant in the root folder to build the index.html.  You will then need to copy the index.html to your webserver that is running the php backend.
