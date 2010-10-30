@@ -228,12 +228,12 @@ MochiKit.Base.update(Clipperz.Base, {
 */
 
 //		return MochiKit.Base.evalJSON(aString);
-		return JSON.parse(aString);
+		return JSON2.parse(aString);
 	},
 	
 	'serializeJSON': function(anObject) {
 //		return MochiKit.Base.serializeJSON(anObject);
-		return JSON.stringify(anObject);
+		return JSON2.stringify(anObject);
 	},
 
 	//-------------------------------------------------------------------------

@@ -115,15 +115,15 @@ Clipperz.PM.Strings.GeneralSettings = {
 		'forumHeaderLinkUrl':			"http://www.clipperz.com/forum",
 
 		'httpAuthBookmarkletConfiguration':	{tag:'textarea', id:'httpAuthDefaultConfiguration', html:"" +
-													"{ 'page':{'title':\"HTTP authentication\"}," + "\n" +
-													"  'form':{'attributes': {" + "\n" +
-													"    'action':\"\"," + "\n" +
-													"    'type':'http_auth'" + "\n" +
-													"  }, 'inputs': [" + "\n" +
-													"    {'type':'text','name':'url','value':''}," + "\n" +
-													"    {'type':'text','name':'username','value':''}," + "\n" +
-													"    {'type':'password','name':'password','value':''}" + "\n" +
-													"  ]}, 'version':'0.2.3'}"
+													"{ \"page\":{\"title\":\"HTTP authentication\"}," + "\n" +
+													"  \"form\":{\"attributes\": {" + "\n" +
+													"    \"action\":\"\"," + "\n" +
+													"    \"type\":\"http_auth\"" + "\n" +
+													"  }, \"inputs\": [" + "\n" +
+													"    {\"type\":\"text\",\"name\":\"url\",\"value\":\"\"}," + "\n" +
+													"    {\"type\":\"text\",\"name\":\"username\",\"value\":\"\"}," + "\n" +
+													"    {\"type\":\"password\",\"name\":\"password\",\"value\":\"\"}" + "\n" +
+													"  ]}, \"version\":\"0.2.3\"}"
 											},
 
 		'directLoginJumpPageUrl':	"",

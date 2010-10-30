@@ -313,16 +313,24 @@ Clipperz.PM.DataModel.RecordVersion.prototype = MochiKit.Base.update(null, {
 	//-------------------------------------------------------------------------
 
 	'processFieldData': function(someValues) {
+		var fieldValues;
+		
 		this._fields = {};
 
-		if (someValues.constructor == Array) {
+		if (typeof(someValues) == 'undefined') {
+			fieldValues = {};
+		} else {
+			fieldValues = someValues;
+		}
+
+		if (fieldValues.constructor == Array) {
 			var i, c;
-			c = someValues.length;
+			c = fieldValues.length;
 			for (i=0; i<c; i++) {
 				var newRecordField;
 				var currentFieldValues;
 		
-				currentFieldValues = someValues[i];
+				currentFieldValues = fieldValues[i];
 				currentFieldValues['recordVersion'] = this;
 				newRecordField = new Clipperz.PM.DataModel.RecordField(currentFieldValues);
 				this._fields[newRecordField.key()] = newRecordField;
@@ -331,11 +339,11 @@ Clipperz.PM.DataModel.RecordVersion.prototype = MochiKit.Base.update(null, {
 		} else {
 			var fieldKey;
 			
-			for (fieldKey in someValues) {
+			for (fieldKey in fieldValues) {
 				var newRecordField;
 				var currentFieldValues;
 		
-				currentFieldValues = someValues[fieldKey];
+				currentFieldValues = fieldValues[fieldKey];
 				currentFieldValues['key'] = fieldKey;
 				currentFieldValues['recordVersion'] = this;
 				newRecordField = new Clipperz.PM.DataModel.RecordField(currentFieldValues);
@@ -490,11 +498,13 @@ Clipperz.PM.DataModel.RecordVersion.prototype = MochiKit.Base.update(null, {
 	//-------------------------------------------------------------------------
 
 	'createNewVersion': function() {
-		this.setPreviousVersion(this.reference());
-		this.setPreviousVersionKey(this.key());
-		
-		this.setReference(Clipperz.PM.Crypto.randomKey());
-		this.setKey(Clipperz.PM.Crypto.randomKey());
+		if (this.record().isBrandNew() == false) {
+			this.setPreviousVersion(this.reference());
+			this.setPreviousVersionKey(this.key());
+
+			this.setReference(Clipperz.PM.Crypto.randomKey());
+			this.setKey(Clipperz.PM.Crypto.randomKey());
+		}
 	},
 	
 	//-------------------------------------------------------------------------

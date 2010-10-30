@@ -160,7 +160,6 @@ MochiKit.Base.update(Clipperz.PM.Main.prototype, {
 		var lockBlock;
 		var menusTRElement;
 		
-//MochiKit.Logging.logDebug(">>> Main.showMainPanels - user: " + this.user());
 		this.loginPanel().remove();
 		this.setLoginPanel(null);
 
@@ -422,8 +421,7 @@ MochiKit.Base.update(Clipperz.PM, {
 		
 //MochiKit.Logging.logWarning("Just testing logging system");
 		Clipperz.PM.Strings.Languages.initSetup();
-//MochiKit.Logging.logDebug(">>> DWRUtilLoadingMessage: " + Clipperz.PM.Strings['DWRUtilLoadingMessage']);
-		DWRUtil.useLoadingMessage(Clipperz.PM.Strings['DWRUtilLoadingMessage']);
+//		DWRUtil.useLoadingMessage(Clipperz.PM.Strings['DWRUtilLoadingMessage']);
 
 		if (window.location.search.indexOf("registration") != -1) {
 			shouldShowRegistrationForm = true;
@@ -482,6 +480,10 @@ MochiKit.Base.update(Clipperz.PM, {
 //-------------------------------------
 //			main.showMainPanels('ok');
 		};
+
+		if 	(/fastEntropyAccumulationForTestingPurpose/.test(window.location.search)) {
+			Clipperz.Crypto.PRNG.defaultRandomGenerator().fastEntropyAccumulationForTestingPurpose();
+		}
 
 //		Clipperz.PM.Proxy.defaultProxy.knock();
 	},

@@ -393,7 +393,7 @@ Clipperz.PM.Strings.Languages['zh-CN'.toLowerCase()] = MochiKit.Base.merge(Clipp
 'passwordGeneratorPanelOkLabel':	"确认",
 'passwordGeneratorPanelCancelLabel':	"取消",
 'passwordGeneratorLengthLabel':	"长度:",
-'DWRUtilLoadingMessage':	"加载数据。。。",
+//'DWRUtilLoadingMessage':	"加载数据。。。",
 'comingSoon':	"即将到来。。。",
 'panelCollectingEntryopyMessageText':	"收集平均信息",
 'directLoginConfigurationCheckBoxFieldSelectedValue':	"是",

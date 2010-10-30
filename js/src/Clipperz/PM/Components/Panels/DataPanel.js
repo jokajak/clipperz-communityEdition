@@ -164,7 +164,6 @@ YAHOO.extendX(Clipperz.PM.Components.Panels.DataPanel, Clipperz.PM.Components.Pa
 	'downloadOfflineCopy': function(anEvent) {
 		var downloadHref;
 		
-//		downloadHref = window.location.href.replace(/\/[^\/]*$/,'') + "/dump/";
 		downloadHref = window.location.href.replace(/\/[^\/]*$/,'') + Clipperz_dumpUrl;
 
 		if (Clipperz_IEisBroken == true) {
@@ -177,21 +176,12 @@ YAHOO.extendX(Clipperz.PM.Components.Panels.DataPanel, Clipperz.PM.Components.Pa
 
 			anEvent.preventDefault();
 
-//MochiKit.Logging.logDebug("--- DataPanel.downloadOfflineCopy - 1");
 			deferredResult = new MochiKit.Async.Deferred();
-//MochiKit.Logging.logDebug("--- DataPanel.downloadOfflineCopy - 2");
-//deferredResult.addBoth(function(res) {MochiKit.Logging.logDebug("DataPanel.downloadOfflineCopy - 1 " + res); return res;});
 			deferredResult.addCallback(MochiKit.Base.method(this.user().connection(), 'message'), 'echo', {'echo':"echo"});
-//MochiKit.Logging.logDebug("--- DataPanel.downloadOfflineCopy - 3");
-//deferredResult.addBoth(function(res) {MochiKit.Logging.logDebug("DataPanel.downloadOfflineCopy - 2 " + res); return res;});
 			deferredResult.addCallback(function(aWindow) {
 				aWindow.location.href = downloadHref;
 			}, newWindow);
-//MochiKit.Logging.logDebug("--- DataPanel.downloadOfflineCopy - 4");
-//deferredResult.addBoth(function(res) {MochiKit.Logging.logDebug("DataPanel.downloadOfflineCopy - 3 " + res); return res;});
 			deferredResult.callback();
-//MochiKit.Logging.logDebug("--- DataPanel.downloadOfflineCopy - 5");
-//			return deferredResult;
 		}
 	},
 

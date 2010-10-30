@@ -781,7 +781,7 @@ Clipperz.PM.Strings.Languages['en-us'] = {
 
 //Miscellaneous strings	
 
-'DWRUtilLoadingMessage':										"Loading data …",
+//'DWRUtilLoadingMessage':										"Loading data …",
 'comingSoon':													"coming soon …",
 'panelCollectingEntryopyMessageText':							"Collecting entropy",
 'directLoginConfigurationCheckBoxFieldSelectedValue':			"Yes",

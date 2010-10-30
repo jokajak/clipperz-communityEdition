@@ -395,7 +395,7 @@ Clipperz.PM.Strings.Languages['it-IT'.toLowerCase()] = MochiKit.Base.merge(Clipp
 'passwordGeneratorPanelOkLabel':	"Ok",
 'passwordGeneratorPanelCancelLabel':	"Annulla",
 'passwordGeneratorLengthLabel':	"lung . :",
-'DWRUtilLoadingMessage':	"Caricamento dati",
+//'DWRUtilLoadingMessage':	"Caricamento dati",
 'comingSoon':	"Presto disponibile ...",
 'panelCollectingEntryopyMessageText':	"Raccolta entropia",
 'importData_parsingDataTitle':	"Importa",

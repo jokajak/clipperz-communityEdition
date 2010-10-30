@@ -43,21 +43,16 @@ Clipperz.YUI.DomHelper = new function(){
     /** @ignore */
     var createHtml = function(o){
         var b = '';
+
+		if(typeof(o['html']) != 'undefined') {
+			o['html'] = Clipperz.Base.sanitizeString(o['html']);
+		} else if (typeof(o['htmlString']) != 'undefined') {
+			o['html'] = o['htmlString'];
+			delete o.htmlString;
+		}
 		
         b += '<' + o.tag;
         for(var attr in o){
-			if(attr == 'html') {
-				o[attr] = Clipperz.Base.sanitizeString(o[attr]);
-			} else if (attr == 'htmlString') {
-				o['html'] = o['htmlString'];
-				delete(o['htmlString']);
-			}
-//			if(attr == 'value'){
-//				o[attr] = Clipperz.Base.sanitizeString(o[attr]);
-//			} else if (attr == 'valueString') {
-//				o['value'] = o['valueString'];
-//				delete(o['valueString']);
-//			}
             if(attr == 'tag' || attr == 'children' || attr == 'html' || typeof o[attr] == 'function') continue;
             if(attr == 'style'){
                 var s = o['style'];

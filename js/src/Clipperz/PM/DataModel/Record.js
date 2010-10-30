@@ -332,8 +332,10 @@ Clipperz.PM.DataModel.Record.prototype = MochiKit.Base.update(null, {
 		}
 
 		if (
-			(typeof(someValues['loginFormData']) != "undefined") && (typeof(someValues['loginBindings'] != "undefined")) &&
-			((someValues['loginFormData'] != "") && (someValues['loginBindings'] != ""))
+				(typeof(someValues['loginFormData']) != "undefined")
+			&&	(typeof(someValues['loginBindings'] != "undefined"))
+			&&	(someValues['loginFormData'] != "")
+			&&	(someValues['loginBindings'] != "")
 		) {
 			var	directLogin;
 

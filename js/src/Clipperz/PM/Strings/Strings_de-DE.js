@@ -343,7 +343,7 @@ Clipperz.PM.Strings.Languages['de-DE'.toLowerCase()] = MochiKit.Base.merge(Clipp
 'recordSaveChangesPanelUpdatingTheInterfaceMessageTitle':	"Karte speichern",
 'recordSaveChangesPanelUpdatingTheInterfaceMessageText':	"Aktualisierung der Benutzerschnittstelle",
 'exit':	"<h2> <b>Auf Wiedersehen! Danke, dass Du Clipperz verwendet hast.</b> </h2> <ul> <li> <h3>Hinweis:</h3> <ul> <li> <p>Speichere diese Seite in Deine Favoriten, damit Du auch in Zukunft dich sicher mit Clipperz verbinden kannst (solltest Du dies nicht bereits getan haben)</p> </li> <li> <p>Clipperz wird Dir niemals eine E-Mail senden, weil wir Dich niemals nach Deiner E-Mail Anschrift gefragt haben (und dies auch nie werden) – öffne daher niemals eine Mail, die wvon Clipperz zu sein scheint</p> </li> </ul> </li> </ul> <p> </p> <p>In 10 Sekunden wirdst Du auf eine Seite von Wikipedia umgeleitet, wo Du über eine herausragende Sicherheitslücke informiert wirst.</p> ",
-'DWRUtilLoadingMessage':	"Lade Daten ...",
+//'DWRUtilLoadingMessage':	"Lade Daten ...",
 'comingSoon':	"In Kürze ...",
 'panelCollectingEntryopyMessageText':	"Sammlung",
 'directLoginConfigurationCheckBoxFieldSelectedValue':	"Ja",

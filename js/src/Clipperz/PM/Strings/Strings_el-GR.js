@@ -690,7 +690,7 @@ Clipperz.PM.Strings.Languages['el-gr'] = MochiKit.Base.merge(Clipperz.PM.Strings
 //	Miscellaneous strings	
 //-------------------------------------------------------------------	
 
-	'DWRUtilLoadingMessage':						"Φόρτωση δεδομένων ...",
+//	'DWRUtilLoadingMessage':						"Φόρτωση δεδομένων ...",
 	'comingSoon':									"Σύντομα κοντά σας ...",
 	'panelCollectingEntryopyMessageText':			"Collecting entropy",
 	'directLoginConfigurationCheckBoxFieldSelectedValue':		"Ναι",

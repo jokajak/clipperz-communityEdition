@@ -493,7 +493,9 @@ Clipperz.PM.DataModel.DirectLogin.prototype = MochiKit.Base.update(null, {
 
 //console.log("formData.attributes", this.formData()['attributes']);
 //		if (/^javascript/.test(this.formData()['attributes']['action'])) {
-		if (/^(https?|webdav|ftp)\:/.test(this.formData()['attributes']['action']) == false) {
+		if ((/^(https?|webdav|ftp)\:/.test(this.formData()['attributes']['action']) == false) &&
+			(this.formData()['attributes']['type'] != 'http_auth'))
+		{
 			var messageBoxConfiguration;
 
 			if (typeof(aNewWindow) != 'undefined') {

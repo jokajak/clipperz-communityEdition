@@ -422,7 +422,7 @@ Clipperz.PM.Strings.Languages['ja-JP'.toLowerCase()] = MochiKit.Base.merge(Clipp
 'passwordGeneratorNumberLabel':	"012",
 'passwordGeneratorSymbolLabel':	"@#$",
 'passwordGeneratorLengthLabel':	"文字数:",
-'DWRUtilLoadingMessage':	"ロード中 ...",
+//'DWRUtilLoadingMessage':	"ロード中 ...",
 'comingSoon':	"近日登場 ...",
 'panelCollectingEntryopyMessageText':	"整頓中",
 'directLoginConfigurationCheckBoxFieldSelectedValue':	"はい",
