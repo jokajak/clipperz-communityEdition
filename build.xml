@@ -157,11 +157,6 @@
 		</antcall>
 
 		<antcall target="build.js.framework">
-			<param name="framework_name" value="dwr" />
-			<param name="framework_files" value="${dwr.source.files}" />
-		</antcall>
-
-		<antcall target="build.js.framework">
 			<param name="framework_name" value="yui" />
 			<param name="framework_files" value="${yui.source.files}" />
 		</antcall>
@@ -182,7 +177,7 @@
 		</antcall>
 
 		<concat destfile="${build.scratch}/compressed.js">
-			<filelist dir="${build.scratch}" files="bookmarklet.js,bookmarklet_ie.js,mochikit.compressed.js,dwr.compressed.js,yui.compressed.js,yui-extensions.compressed.js,json.compressed.js,clipperz.compressed.js" />
+			<filelist dir="${build.scratch}" files="bookmarklet.js,bookmarklet_ie.js,mochikit.compressed.js,yui.compressed.js,yui-extensions.compressed.js,json.compressed.js,clipperz.compressed.js" />
 		</concat>
 	</target>
 
