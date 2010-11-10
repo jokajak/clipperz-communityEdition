@@ -247,6 +247,11 @@ function arrayContainsValue($array, $value) {
 			$srp_g = "2";
 			$srp_n = base2dec("115b8b692e0e045692cf280b436735c77a5a9e8a9e7ed56c965f87db5b2a2ece3", 16);
 
+                        // XXX HACK FOR GAMMA CLIENTS
+                        if ($parameters["parameters"]) {
+                            $parameters = $parameters["parameters"];
+                            $gammaClient = true;
+                        }
 			$message = $parameters["message"];
 
 			//=============================================================
@@ -361,6 +366,12 @@ function arrayContainsValue($array, $value) {
 			break;
 
 		case "message":
+			// XXX HACK FOR GAMMA CLIENTS
+			if ($parameters["parameters"]) {
+				$parameters = $parameters["parameters"];
+				$gammaClient = true;
+			}
+
 			if ($parameters["srpSharedSecret"] == $_SESSION["K"]) {
 				$message = $parameters["message"];
 				
@@ -740,5 +751,11 @@ function arrayContainsValue($array, $value) {
 
 	session_write_close();
 	
-	echo(json_encode($result));
+		// XXX HACK FOR GAMMA CLIENTS
+	if ($gammaClient == true) {
+		$res["result"] = $result;
+		echo(json_encode($res));
+	} else {
+		echo(json_encode($result));
+	}
 ?>
