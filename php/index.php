@@ -25,7 +25,6 @@ refer to http://www.clipperz.com
 
 */
 
-
 	include "./configuration.php";
 	include "./objects/class.database.php";
 	include "./objects/class.user.php";
@@ -246,6 +245,10 @@ function arrayContainsValue($array, $value) {
 		case "handshake":
 			$srp_g = "2";
 			$srp_n = base2dec("115b8b692e0e045692cf280b436735c77a5a9e8a9e7ed56c965f87db5b2a2ece3", 16);
+			if ($parameters["parameters"] && !is_null($parameters["parameters"]["parameters"])) {
+				$parameters = $parameters["parameters"];
+				$gammaClient = true;
+			}
 
 			$message = $parameters["message"];
 
@@ -361,6 +364,10 @@ function arrayContainsValue($array, $value) {
 			break;
 
 		case "message":
+			if ($parameters["parameters"] && !is_null($parameters["parameters"]["parameters"])) {
+				$parameters = $parameters["parameters"];
+				$gammaClient = true;
+			}
 			if ($parameters["srpSharedSecret"] == $_SESSION["K"]) {
 				$message = $parameters["message"];
 				
@@ -371,6 +378,13 @@ function arrayContainsValue($array, $value) {
 					$user = $user->Get($_SESSION["userId"]);
 					
 					$result["header"] =		$user->header;
+					$records = $user->GetRecordList();
+					foreach ($records as $record)
+					{
+						$recordStats["updateDate"] = $record->update_date;
+						$recordsStats[$record->reference] = $recordStats;
+					}
+					$result["recordsStats"] = $recordsStats;
 					$result["statistics"] =	$user->statistics;
 					$result["version"] =	$user->version;
 
@@ -487,6 +501,130 @@ function arrayContainsValue($array, $value) {
 					$result["oldestUsedEncryptedVersion"] =	"---";
 
 				//=============================================================
+				} else if ($message == "saveChanges") {
+//    "parameters":{
+//        "message":"saveChanges",
+//        "srpSharedSecret":"733b3bf26b71e1055abbfcfe903f1ea07ead0e7650738f149f2aa21a00643899",
+//        "parameters":{
+//            "records":{
+//                "updated":[
+//{"currentContactVersion":{"previousVersionKey":"####","reference":"b2ddd708d5c5523cb3321c4fe1730683fdac2c415bc053459aa00f3ccc8df995","data":"FLMNRGfvVFfJic6cpDM+YDns","version":"0.3"},"record":{"reference":"aa516da79b20ff04ccbd8624ab38daf51081fc35f0dd313baf70d4130c93c556","data":"b3/l1GbAc7XNQK4a4jObd5b/G0KIFBEspt/Su0OtpraFXXK2dCSirForwCKonF4CZK9Sn6QPjk3MmmGVIMVHOE0urDzvXmqjSv1iXnp91RX8j6WgH5daRLPPbecNVN2IUEaghQYnbVO2KcNwcUFXg3lageqgmNBG9Z8=","version":"0.3"}}
+//                ],
+//                "deleted":[]
+//            },
+//            "contacts":{
+//                "updated":[],
+//                "deleted":[]
+//            },
+//            "user":{
+//                "header":"{
+//                    \"records\":{
+//                        \"index\":{
+//                             \"b4d0158b049262ba...0d8f291b831bedcbdbdf8\":\"0\"
+//                        },
+//                        \"data\":\"fRJOT4FdOcGB/D...h7k+pDX0ydAsT4T5ypwK3UjQOS0=\"
+//                    },
+//                    \"contacts\":{
+//                        \"index\":{
+//                            \"1cc26d7de0d8b56af1515...39954438b0e84\":\"1\"
+//                        },
+//                        \"data\":\"FsjXLalsFEjq8o1zKA...IG11Tsq3xduMPV8B+YFSnRu22f2ridPmA==\"
+//                    },
+//                    \"directLogins\":{
+//                        \"index\":{
+//                            \"49ced0d7c219c6e2f3c4...ffa7d5640fbfd7ba10674\":\"0\"
+//                        },
+//                        \"data\":\"yMqPTZ...v+P3IK1XTZDWmFg==\"
+//                    },
+//                    \"preferences\":{
+//                        \"data\":\"AdSuZ...PCBk\"
+//                    },
+//                    \"oneTimePasswords\":{
+//                        \"data\":\"fR8l...qc3oC7\"
+//                    },
+//                    \"version\":\"0.1\"
+//                }",
+//                "statistics":"XKN19EHBy...Zs3E4",
+//                "version":"0.3"
+//            }
+//        }
+//    }
+
+					$user = new user();
+					$user = $user->Get($_SESSION["userId"]);
+					updateUserData($parameters["parameters"]["user"], $user);
+					$user->Save();
+
+/*
+					$recordParameterList = $parameters["parameters"]["contacts"]["updated"];
+					$c = count($recordParameterList);
+					for ($i=0; $i<$c; $i++) {
+						$recordList = $user->GetRecordList(array(array("reference", "=", $recordParameterList[$i]["record"]["reference"])));
+						$currentRecord = $recordList[0];
+						$currentRecordVersions = $currentRecord->GetRecordversionList();
+						$currentVersion = $currentRecordVersions[0];
+
+						updateRecordData($recordParameterList[$i], $currentRecord, $currentVersion);
+
+
+						$currentRecord->Save();
+						$currentVersion->Save();
+					}
+
+					$recordReferenceList = $parameters["parameters"]["contacts"]["deleted"];
+					$recordList = array();
+					$c = count($recordReferenceList);
+					for ($i=0; $i<$c; $i++) {
+						array_push($recordList, array("reference", "=", $recordReferenceList[$i]));
+					}
+
+					$record = new record();
+					$record->DeleteList($recordList, true);
+*/
+					
+					$record = new record();
+					$recordVersion = new recordversion();
+					$recordParameterList = $parameters["parameters"]["records"]["updated"];
+					$c = count($recordParameterList);
+					for ($i=0; $i<$c; $i++) {
+						$recordList = $user->GetRecordList(array(array("reference", "=", $recordParameterList[$i]["record"]["reference"])));
+						$currentRecord = $recordList[0];
+						if (!is_null($currentRecord)) {
+							$currentRecordVersions = $currentRecord->GetRecordversionList();
+							$currentVersion = $currentRecordVersions[0];
+
+							updateRecordData($recordParameterList[$i], $currentRecord, $currentVersion);
+
+
+							$currentRecord->Save();
+							$currentVersion->Save();
+						} else {
+							updateRecordData($recordParameterList[$i], $record, $recordVersion);
+
+							$record->SaveNew();
+							$recordVersion->SaveNew();
+
+							$record->AddRecordversion($recordVersion);
+							$user->AddRecord($record);
+							
+							$record->Save();
+							$recordVersion->Save();
+						}
+					}
+
+					$recordReferenceList = $parameters["parameters"]["records"]["deleted"];
+					$recordList = array();
+					$c = count($recordReferenceList);
+					for ($i=0; $i<$c; $i++) {
+						array_push($recordList, array("reference", "=", $recordReferenceList[$i]));
+					}
+
+					$record = new record();
+					$record->DeleteList($recordList, true);
+					
+					$result["lock"] = $user->lock;
+					$result["result"] = "done";
+
 				} else if ($message == "updateData") {
 //{
 //	"message":"updateData",
@@ -736,5 +874,10 @@ function arrayContainsValue($array, $value) {
 
 	session_write_close();
 	
-	echo(json_encode($result));
+	if ($gammaClient == true) {
+		$res["result"] = $result;
+		echo(json_encode($res));
+	} else {
+		echo(json_encode($result));
+	}
 ?>
