@@ -239,6 +239,12 @@ YAHOO.extendX(Clipperz.PM.Proxy.PHP, Clipperz.PM.Proxy, {
 //deferredResult.addCallback(function(res) {MochiKit.Logging.logDebug("Proxy.PHP.response - 2: " + res.responseText); return res;});
 //deferredResult.addErrback(function(res) {MochiKit.Logging.logDebug("Proxy.PHP.response - ERROR: " + res); return res;});
 		deferredResult.addCallback(MochiKit.Async.evalJSONRequest);
+		deferredResult.addCallback(function (someValues) {
+			if (someValues['results'] == 'EXCEPTION') {
+				throw someValues['message'];
+			}
+			return someValues;
+		})
 		deferredResult.callback();
 
 		return deferredResult;

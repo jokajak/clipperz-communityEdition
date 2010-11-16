@@ -717,8 +717,11 @@ function arrayContainsValue($array, $value) {
 				}
 				
 				//=============================================================
-			} else {
+			} else if (isset($_SESSION['K'])) {
 				$result["error"] = "Wrong shared secret!";
+			} else {
+				$result["results"] = "EXCEPTION";
+				$result["message"] = "Trying to communicate without an active connection";
 			}
 			break;
 
