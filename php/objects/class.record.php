@@ -233,7 +233,7 @@ class record extends POG_Base
 	function Save($deep = true)
 	{
 		$connection = Database::Connect();
-        date_default_timezone_set('America/New_York');
+		date_default_timezone_set('America/New_York');
 		$this->update_date = date( 'Y-m-d H:i:s');
 		$this->access_date = date( 'Y-m-d H:i:s');
 		$this->pog_query = "select `recordid` from `record` where `recordid`='".$this->recordId."' LIMIT 1";
@@ -283,9 +283,9 @@ class record extends POG_Base
 	*/
 	function SaveNew($deep = false)
 	{
-        // set the default timezone so date doesn't complain later
-        // could have some weirdness if users are in different timezones, but meh
-        date_default_timezone_set('America/New_York');
+		// set the default timezone so date doesn't complain later
+		// could have some weirdness if users are in different timezones, but meh
+		date_default_timezone_set('America/New_York');
 		$this->recordId = '';
 		$this->creation_date = date( 'Y-m-d H:i:s');
 		return $this->Save($deep);

@@ -369,7 +369,7 @@ function arrayContainsValue($array, $value) {
 						throw new Exception("The requested One Time Password was not active");
 					}
 				} else {
-        			throw new Exception("The requested One Time Password has not been found");
+					throw new Exception("The requested One Time Password has not been found");
 				}
 
 			//=============================================================
