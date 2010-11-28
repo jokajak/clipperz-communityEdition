@@ -256,6 +256,9 @@ class recordversion extends POG_Base
 	function Save()
 	{
 		$connection = Database::Connect();
+		date_default_timezone_set('America/New_York');
+		$this->update_date = date( 'Y-m-d H:i:s');
+		$this->access_date = date( 'Y-m-d H:i:s');
 		$this->pog_query = "select `recordversionid` from `recordversion` where `recordversionid`='".$this->recordversionId."' LIMIT 1";
 		$rows = Database::Query($this->pog_query, $connection);
 		if ($rows > 0)

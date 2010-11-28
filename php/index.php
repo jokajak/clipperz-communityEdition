@@ -561,8 +561,16 @@ function arrayContainsValue($array, $value) {
 					for ($i=0; $i<$c; $i++) {
 						$recordList = $user->GetRecordList(array(array("reference", "=", $recordParameterList[$i]["record"]["reference"])));
 						$currentRecord = $recordList[0];
-						$currentRecordVersions = $currentRecord->GetRecordversionList();
-						$currentVersion = $currentRecordVersions[0];
+						if (!is_null($currentRecord)) {
+							$currentRecordVersions = $currentRecord->GetRecordversionList();
+							$currentVersion = $currentRecordVersions[0];
+							updateRecordData($recordParameterList[$i], $currentRecord, $currentVersion);
+							$currentRecord->Save();
+							$currentVersion->Save();
+						} else {
+							$record = new record();
+							$recordVersion = new recordversion();
+							updateRecordData($recordParameterList[$i], $record, $recordVersion);
 
 						updateRecordData($recordParameterList[$i], $currentRecord, $currentVersion);
 
