@@ -617,7 +617,7 @@ function arrayContainsValue($array, $value) {
 						} else {
 							$record = new record();
 							$recordVersion = new recordversion();
-							updateRecordData($recordParameterList[$i], $record, $currentVersion);
+							updateRecordData($recordParameterList[$i], $record, $recordVersion);
 
 							$record->SaveNew();
 							$recordVersion->SaveNew();
