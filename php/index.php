@@ -483,14 +483,28 @@ function arrayContainsValue($array, $value) {
 					$currentRecordVersions = $currentRecord->GetRecordversionList();
 					$currentVersion = $currentRecordVersions[0];
 				
-					$result["currentVersion"] = array();
-					$result["currentVersion"]["reference"] =	$currentVersion->reference;
-					$result["currentVersion"]["data"] =			$currentVersion->data;
-					$result["currentVersion"]["header"] =		$currentVersion->header;
-					$result["currentVersion"]["version"] =		$currentVersion->version;
-					$result["currentVersion"]["creationDate"] =	$currentVersion->creation_date;
-					$result["currentVersion"]["updateDate"] =	$currentVersion->update_date;
-					$result["currentVersion"]["accessDate"] =	$currentVersion->access_date;
+					if ($gammaClient == true) {
+						$result["currentVersion"] = $currentVersion->reference;
+						$currentVersionInfo = array();
+						$currentVersionInfo['reference'] =			$currentVersion->reference;
+						$currentVersionInfo['data'] =			$currentVersion->data;
+						$currentVersionInfo['header'] =			$currentVersion->data;
+						$currentVersionInfo['version'] =			$currentVersion->version;
+						$currentVersionInfo['updateDate'] =			$currentVersion->update_date;
+						$currentVersionInfo['creationDate'] =			$currentVersion->creation_date;
+						$currentVersionInfo['accessDate'] =			$currentVersion->access_date;
+						$result["versions"] = array();
+						$result["versions"][$currentVersion->reference] = $currentVersionInfo;
+					} else {
+						$result["currentVersion"] = array();
+						$result["currentVersion"]["reference"] =	$currentVersion->reference;
+						$result["currentVersion"]["data"] =			$currentVersion->data;
+						$result["currentVersion"]["header"] =		$currentVersion->header;
+						$result["currentVersion"]["version"] =		$currentVersion->version;
+						$result["currentVersion"]["creationDate"] =	$currentVersion->creation_date;
+						$result["currentVersion"]["updateDate"] =	$currentVersion->update_date;
+						$result["currentVersion"]["accessDate"] =	$currentVersion->access_date;
+					}
 
 					$result["reference"] =		$currentRecord->reference;
 					$result["data"] =			$currentRecord->data;
