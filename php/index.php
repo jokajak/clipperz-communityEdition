@@ -30,6 +30,7 @@ refer to http://www.clipperz.com
 	include "./objects/class.user.php";
 	include "./objects/class.record.php";
 	include "./objects/class.recordversion.php";
+	include "./objects/class.sharing.php";
 	include "./objects/class.onetimepassword.php";
 	include "./objects/class.onetimepasswordstatus.php";
 
@@ -171,6 +172,13 @@ function updateContactData($parameters, &$contact, &$contactVersion) {
 	$contactVersion->version =				$contactVersionData ["version"];
 	$contactVersion->previous_version_id =	$contactVersionData ["previousVersion"];
 	$contactVersion->previous_version_key =	$contactVersionData ["previousVersionKey"];
+}
+
+function updateSharingData($parameters, &$sharing) {
+	$sharingData = $parameters["shared"];
+	$sharing->reference =	$sharingData["reference"];
+	$sharing->data =		$sharingData["data"];
+	$sharing->version =		$sharingData["version"];
 }
 
 //-----------------------------------------------------------------------------
@@ -537,6 +545,55 @@ function arrayContainsValue($array, $value) {
 					}
 
 				//=============================================================
+
+				} else if ($message == "getSharingDetail") {
+//{
+//	"message":"getSharingDetail",
+//	"srpSharedSecret":"4c00dcb66a9f2aea41a87e4707c526874e2eb29cc72d2c7086837e53d6bf2dfe",
+//	"parameters":{
+//		"reference":"740009737139a189cfa2b1019a6271aaa39467b59e259706564b642ff3838d50"
+//	}
+//}
+//
+//	result = {
+//		currentVersion:{
+//			reference:"88943d709c3ea2442d4f58eaaec6409276037e5a37e0a6d167b9dad9e947e854",
+//			accessDate:"Wed, 13 February 2008 14:25:12 UTC",
+//			creationDate:"Tue, 17 April 2007 17:17:52 UTC",
+//			version:"0.2",
+//			data:"xI3WXddQLFtL......EGyKnnAVik",
+//			updateDate:"Tue, 17 April 2007 17:17:52 UTC",
+//			header:"####"
+//		}
+//		reference:"13a5e52976337ab210903cd04872588e1b21fb72bc183e91aa25c494b8138551",
+//		oldestUsedEncryptedVersion:"0.2",
+//		accessDate:"Wed, 13 February 2008 14:25:12 UTC",
+//		creationDate:"Wed, 14 March 2007 13:53:11 UTC",
+//		version:"0.2",
+//		updatedDate:"Tue, 17 April 2007 17:17:52 UTC",
+//		data:"0/BjzyY6jeh71h...pAw2++NEyylGhMC5C5f5m8pBApYziN84s4O3JQ3khW/1UttQl4="
+//	}
+					$sharing = new sharing();
+
+					$sharingList = $sharing->GetList(array(array("reference", "=", $parameters["parameters"]["reference"])));
+					if (!is_null($sharingList[0])) {
+						$currentSharing = $sharingList[0];
+
+						$result["reference"] =		$currentSharing->reference;
+						$result["data"] =			$currentSharing->data;
+						$result["version"] =		$currentSharing->version;
+						$result["creationDate"] =	$currentSharing->creation_date;
+						$result["updateDate"] =		$currentSharing->update_date;
+						$result["accessDate"] =		$currentSharing->access_date;
+						$result["oldestUsedEncryptedVersion"] =	"---";
+					} else {
+						if ($gammaClient == true) {
+							$result["reference"] = $parameters["parameters"]["reference"];
+							$result["version"] = "0.3";
+						}
+					}
+
+				//=============================================================
 				} else if ($message == "saveChanges") {
 // {
 //   "parameters":{
@@ -689,6 +746,25 @@ function arrayContainsValue($array, $value) {
 					$record = new record();
 					$record->DeleteList($recordList, true);
 					
+					$sharingParameterList = $parameters["parameters"]["shared"]["updated"];
+					$c = count($sharingParameterList);
+					for ($i=0; $i<$c; $i++) {
+						$reference = $sharingParameterList[$i]["shared"]["reference"];
+						$sharingList = $user->GetSharingList(array(array("reference", "=", $reference)));
+						$currentShared = $sharingList[0];
+						if (!is_null($currentShared)) {
+							updateSharingData($sharingParameterList[$i], $currentShared);
+							$currentShared->Save();
+						} else {
+							$sharing = new sharing();
+							updateSharingData($sharingParameterList[$i], $sharing);
+
+							$sharing->SaveNew();
+
+							$sharing->Save();
+						}
+					}
+
 					$result["lock"] = $user->lock;
 					$result["result"] = "done";
 

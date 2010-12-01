@@ -498,5 +498,21 @@ class user extends POG_Base
 			$this->_onetimepasswordList[] = $onetimepassword;
 		}
 	}
+
+	/**
+	* Gets a list of sharing objects associated to this one
+	* @param multidimensional array {("field", "comparator", "value"), ("field", "comparator", "value"), ...} 
+	* @param string $sortBy 
+	* @param boolean $ascending 
+	* @param int limit 
+	* @return array of sharing objects
+	*/
+	function GetSharingList($fcv_array = array(), $sortBy='', $ascending=true, $limit='')
+	{
+		$sharing = new sharing();
+		$dbObjects = $sharing->GetList($fcv_array, $sortBy, $ascending, $limit);
+		return $dbObjects;
+	}
+
 }
 ?>

@@ -2,40 +2,29 @@
 /*
 	This SQL query will create the table to store your object.
 
-	CREATE TABLE `record` (
-	`recordid` int(11) NOT NULL auto_increment,
-	`userid` int(11) NOT NULL,
+	CREATE TABLE `sharing` (
+	`sharingid` int(11) NOT NULL auto_increment,
 	`reference` VARCHAR(255) NOT NULL,
 	`data` LONGTEXT NOT NULL,
 	`version` VARCHAR(255) NOT NULL,
 	`creation_date` TIMESTAMP NOT NULL,
 	`update_date` TIMESTAMP NOT NULL,
-	`access_date` TIMESTAMP NOT NULL, INDEX(`userid`), PRIMARY KEY  (`recordid`)) ENGINE=MyISAM;
+	`access_date` TIMESTAMP NOT NULL, PRIMARY KEY  (`sharingid`)) ENGINE=InnoDB;
 */
 
 /**
-* <b>record</b> class with integrated CRUD methods.
+* <b>sharing</b> class with integrated CRUD methods.
 * @author Php Object Generator
 * @version POG 3.0e / PHP5.1 MYSQL
 * @see http://www.phpobjectgenerator.com/plog/tutorials/45/pdo-mysql
 * @copyright Free for personal & commercial use. (Offered under the BSD license)
-* @link http://www.phpobjectgenerator.com/?language=php5.1&wrapper=pdo&pdoDriver=mysql&objectName=record&attributeList=array+%28%0A++0+%3D%3E+%27user%27%2C%0A++1+%3D%3E+%27recordversion%27%2C%0A++2+%3D%3E+%27reference%27%2C%0A++3+%3D%3E+%27data%27%2C%0A++4+%3D%3E+%27version%27%2C%0A++5+%3D%3E+%27creation_date%27%2C%0A++6+%3D%3E+%27update_date%27%2C%0A++7+%3D%3E+%27access_date%27%2C%0A%29&typeList=array%2B%2528%250A%2B%2B0%2B%253D%253E%2B%2527BELONGSTO%2527%252C%250A%2B%2B1%2B%253D%253E%2B%2527HASMANY%2527%252C%250A%2B%2B2%2B%253D%253E%2B%2527VARCHAR%2528255%2529%2527%252C%250A%2B%2B3%2B%253D%253E%2B%2527LONGTEXT%2527%252C%250A%2B%2B4%2B%253D%253E%2B%2527VARCHAR%2528255%2529%2527%252C%250A%2B%2B5%2B%253D%253E%2B%2527TIMESTAMP%2527%252C%250A%2B%2B6%2B%253D%253E%2B%2527TIMESTAMP%2527%252C%250A%2B%2B7%2B%253D%253E%2B%2527TIMESTAMP%2527%252C%250A%2529
+* @link http://www.phpobjectgenerator.com/?language=php5.1&wrapper=pdo&pdoDriver=mysql&objectName=sharing&attributeList=array+%28%0A++0+%3D%3E+%27user%27%2C%0A++1+%3D%3E+%27sharingversion%27%2C%0A++2+%3D%3E+%27reference%27%2C%0A++3+%3D%3E+%27data%27%2C%0A++4+%3D%3E+%27version%27%2C%0A++5+%3D%3E+%27creation_date%27%2C%0A++6+%3D%3E+%27update_date%27%2C%0A++7+%3D%3E+%27access_date%27%2C%0A%29&typeList=array%2B%2528%250A%2B%2B0%2B%253D%253E%2B%2527BELONGSTO%2527%252C%250A%2B%2B1%2B%253D%253E%2B%2527HASMANY%2527%252C%250A%2B%2B2%2B%253D%253E%2B%2527VARCHAR%2528255%2529%2527%252C%250A%2B%2B3%2B%253D%253E%2B%2527LONGTEXT%2527%252C%250A%2B%2B4%2B%253D%253E%2B%2527VARCHAR%2528255%2529%2527%252C%250A%2B%2B5%2B%253D%253E%2B%2527TIMESTAMP%2527%252C%250A%2B%2B6%2B%253D%253E%2B%2527TIMESTAMP%2527%252C%250A%2B%2B7%2B%253D%253E%2B%2527TIMESTAMP%2527%252C%250A%2529
 */
 include_once('class.pog_base.php');
-class record extends POG_Base
+class sharing extends POG_Base
 {
-	public $recordId = '';
+	public $sharingId = '';
 
-	/**
-	 * @var INT(11)
-	 */
-	public $userId;
-	
-	/**
-	 * @var private array of recordversion objects
-	 */
-	private $_recordversionList = array();
-	
 	/**
 	 * @var VARCHAR(255)
 	 */
@@ -67,9 +56,7 @@ class record extends POG_Base
 	public $access_date;
 	
 	public $pog_attribute_type = array(
-		"recordId" => array('db_attributes' => array("NUMERIC", "INT")),
-		"user" => array('db_attributes' => array("OBJECT", "BELONGSTO")),
-		"recordversion" => array('db_attributes' => array("OBJECT", "HASMANY")),
+		"sharingId" => array('db_attributes' => array("NUMERIC", "INT")),
 		"reference" => array('db_attributes' => array("TEXT", "VARCHAR", "255")),
 		"data" => array('db_attributes' => array("TEXT", "LONGTEXT")),
 		"version" => array('db_attributes' => array("TEXT", "VARCHAR", "255")),
@@ -96,9 +83,8 @@ class record extends POG_Base
 		}
 	}
 	
-	function record($reference='', $data='', $version='', $creation_date='', $update_date='', $access_date='')
+	function sharing($reference='', $data='', $version='', $creation_date='', $update_date='', $access_date='')
 	{
-		$this->_recordversionList = array();
 		$this->reference = $reference;
 		$this->data = $data;
 		$this->version = $version;
@@ -110,24 +96,22 @@ class record extends POG_Base
 	
 	/**
 	* Gets object from database
-	* @param integer $recordId 
-	* @return object $record
+	* @param integer $sharingId 
+	* @return object $sharing
 	*/
-	function Get($recordId)
+	function Get($sharingId)
 	{
 		$connection = Database::Connect();
-		$this->pog_query = "select * from `record` where `recordid`='".intval($recordId)."' LIMIT 1";
+		$this->pog_query = "select * from `sharing` where `sharingid`='".intval($sharingId)."' LIMIT 1";
 		$cursor = Database::Reader($this->pog_query, $connection);
 		while ($row = Database::Read($cursor))
 		{
-			$this->recordId = $row['recordid'];
-			$this->userId = $row['userid'];
+			$this->sharingId = $row['sharingid'];
 			$this->reference = $this->Unescape($row['reference']);
 			$this->data = $this->Unescape($row['data']);
 			$this->version = $this->Unescape($row['version']);
 			$this->creation_date = $row['creation_date'];
-			$oDate = strtotime($row['update_date']);
-			$this->update_date = date('r', $oDate);
+			$this->update_date = $row['update_date'];
 			$this->access_date = $row['access_date'];
 		}
 		return $this;
@@ -140,14 +124,14 @@ class record extends POG_Base
 	* @param string $sortBy 
 	* @param boolean $ascending 
 	* @param int limit 
-	* @return array $recordList
+	* @return array $sharingList
 	*/
 	function GetList($fcv_array = array(), $sortBy='', $ascending=true, $limit='')
 	{
 		$connection = Database::Connect();
 		$sqlLimit = ($limit != '' ? "LIMIT $limit" : '');
-		$this->pog_query = "select * from `record` ";
-		$recordList = Array();
+		$this->pog_query = "select * from `sharing` ";
+		$sharingList = Array();
 		if (sizeof($fcv_array) > 0)
 		{
 			$this->pog_query .= " where ";
@@ -205,56 +189,52 @@ class record extends POG_Base
 		}
 		else
 		{
-			$sortBy = "recordid";
+			$sortBy = "sharingid";
 		}
 		$this->pog_query .= " order by ".$sortBy." ".($ascending ? "asc" : "desc")." $sqlLimit";
 		$thisObjectName = get_class($this);
 		$cursor = Database::Reader($this->pog_query, $connection);
 		while ($row = Database::Read($cursor))
 		{
-			$record = new $thisObjectName();
-			$record->recordId = $row['recordid'];
-			$record->userId = $row['userid'];
-			$record->reference = $this->Unescape($row['reference']);
-			$record->data = $this->Unescape($row['data']);
-			$record->version = $this->Unescape($row['version']);
-			$record->creation_date = $row['creation_date'];
-			$oDate = strtotime($row['update_date']);
-			$record->update_date = date('r', $oDate);
-			$record->access_date = $row['access_date'];
-			$recordList[] = $record;
+			$sharing = new $thisObjectName();
+			$sharing->sharingId = $row['sharingid'];
+			$sharing->reference = $this->Unescape($row['reference']);
+			$sharing->data = $this->Unescape($row['data']);
+			$sharing->version = $this->Unescape($row['version']);
+			$sharing->creation_date = $row['creation_date'];
+			$sharing->update_date = $row['update_date'];
+			$sharing->access_date = $row['access_date'];
+			$sharingList[] = $sharing;
 		}
-		return $recordList;
+		return $sharingList;
 	}
 	
 	
 	/**
 	* Saves the object to the database
-	* @return integer $recordId
+	* @return integer $sharingId
 	*/
 	function Save($deep = true)
 	{
 		$connection = Database::Connect();
 		date_default_timezone_set('America/New_York');
-		$this->update_date = date( 'r');
-		$this->access_date = date( 'r');
-		$this->pog_query = "select `recordid` from `record` where `recordid`='".$this->recordId."' LIMIT 1";
+		$this->update_date = date( 'Y-m-d H:i:s');
+		$this->access_date = date( 'Y-m-d H:i:s');
+		$this->pog_query = "select `sharingid` from `sharing` where `sharingid`='".$this->sharingId."' LIMIT 1";
 		$rows = Database::Query($this->pog_query, $connection);
 		if ($rows > 0)
 		{
-			$this->pog_query = "update `record` set 
-			`userid`='".$this->userId."', 
+			$this->pog_query = "update `sharing` set 
 			`reference`='".$this->Escape($this->reference)."', 
 			`data`='".$this->Escape($this->data)."', 
 			`version`='".$this->Escape($this->version)."', 
 			`creation_date`='".$this->creation_date."', 
 			`update_date`='".$this->update_date."', 
-			`access_date`='".$this->access_date."' where `recordid`='".$this->recordId."'";
+			`access_date`='".$this->access_date."' where `sharingid`='".$this->sharingId."'";
 		}
 		else
 		{
-			$this->pog_query = "insert into `record` (`userid`, `reference`, `data`, `version`, `creation_date`, `update_date`, `access_date` ) values (
-			'".$this->userId."', 
+			$this->pog_query = "insert into `sharing` (`reference`, `data`, `version`, `creation_date`, `update_date`, `access_date` ) values (
 			'".$this->Escape($this->reference)."', 
 			'".$this->Escape($this->data)."', 
 			'".$this->Escape($this->version)."', 
@@ -263,32 +243,24 @@ class record extends POG_Base
 			'".$this->access_date."' )";
 		}
 		$insertId = Database::InsertOrUpdate($this->pog_query, $connection);
-		if ($this->recordId == "")
+		if ($this->sharingId == "")
 		{
-			$this->recordId = $insertId;
+			$this->sharingId = $insertId;
 		}
-		if ($deep)
-		{
-			foreach ($this->_recordversionList as $recordversion)
-			{
-				$recordversion->recordId = $this->recordId;
-				$recordversion->Save($deep);
-			}
-		}
-		return $this->recordId;
+		return $this->sharingId;
 	}
 	
 	
 	/**
 	* Clones the object and saves it to the database
-	* @return integer $recordId
+	* @return integer $sharingId
 	*/
 	function SaveNew($deep = false)
 	{
 		// set the default timezone so date doesn't complain later
 		// could have some weirdness if users are in different timezones, but meh
 		date_default_timezone_set('America/New_York');
-		$this->recordId = '';
+		$this->sharingId = '';
 		$this->creation_date = date( 'Y-m-d H:i:s');
 		return $this->Save($deep);
 	}
@@ -300,16 +272,8 @@ class record extends POG_Base
 	*/
 	function Delete($deep = false, $across = false)
 	{
-		if ($deep)
-		{
-			$recordversionList = $this->GetRecordversionList();
-			foreach ($recordversionList as $recordversion)
-			{
-				$recordversion->Delete($deep, $across);
-			}
-		}
 		$connection = Database::Connect();
-		$this->pog_query = "delete from `record` where `recordid`='".$this->recordId."'";
+		$this->pog_query = "delete from `sharing` where `sharingid`='".$this->sharingId."'";
 		return Database::NonQuery($this->pog_query, $connection);
 	}
 	
@@ -335,7 +299,7 @@ class record extends POG_Base
 			else
 			{
 				$connection = Database::Connect();
-				$pog_query = "delete from `record` where ";
+				$pog_query = "delete from `sharing` where ";
 				for ($i=0, $c=sizeof($fcv_array); $i<$c; $i++)
 				{
 					if (sizeof($fcv_array[$i]) == 1)
@@ -364,82 +328,5 @@ class record extends POG_Base
 		}
 	}
 	
-	
-	/**
-	* Associates the user object to this one
-	* @return boolean
-	*/
-	function GetUser()
-	{
-		$user = new user();
-		return $user->Get($this->userId);
-	}
-	
-	
-	/**
-	* Associates the user object to this one
-	* @return 
-	*/
-	function SetUser(&$user)
-	{
-		$this->userId = $user->userId;
-	}
-	
-	
-	/**
-	* Gets a list of recordversion objects associated to this one
-	* @param multidimensional array {("field", "comparator", "value"), ("field", "comparator", "value"), ...} 
-	* @param string $sortBy 
-	* @param boolean $ascending 
-	* @param int limit 
-	* @return array of recordversion objects
-	*/
-	function GetRecordversionList($fcv_array = array(), $sortBy='', $ascending=true, $limit='')
-	{
-		$recordversion = new recordversion();
-		$fcv_array[] = array("recordId", "=", $this->recordId);
-		$dbObjects = $recordversion->GetList($fcv_array, $sortBy, $ascending, $limit);
-		return $dbObjects;
-	}
-	
-	
-	/**
-	* Makes this the parent of all recordversion objects in the recordversion List array. Any existing recordversion will become orphan(s)
-	* @return null
-	*/
-	function SetRecordversionList(&$list)
-	{
-		$this->_recordversionList = array();
-		$existingRecordversionList = $this->GetRecordversionList();
-		foreach ($existingRecordversionList as $recordversion)
-		{
-			$recordversion->recordId = '';
-			$recordversion->Save(false);
-		}
-		$this->_recordversionList = $list;
-	}
-	
-	
-	/**
-	* Associates the recordversion object to this one
-	* @return 
-	*/
-	function AddRecordversion(&$recordversion)
-	{
-		$recordversion->recordId = $this->recordId;
-		$found = false;
-		foreach($this->_recordversionList as $recordversion2)
-		{
-			if ($recordversion->recordversionId > 0 && $recordversion->recordversionId == $recordversion2->recordversionId)
-			{
-				$found = true;
-				break;
-			}
-		}
-		if (!$found)
-		{
-			$this->_recordversionList[] = $recordversion;
-		}
-	}
 }
 ?>
